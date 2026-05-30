@@ -1,0 +1,60 @@
+import { useState, useEffect } from "react";
+
+export default function App() {
+  const [sales, setSales] = useState(
+    JSON.parse(localStorage.getItem("sales") || "[]")
+  );
+
+  const [amount, setAmount] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("sales", JSON.stringify(sales));
+  }, [sales]);
+
+  const addSale = () => {
+    if (!amount) return;
+
+    setSales([
+      {
+        id: Date.now(),
+        amount: Number(amount),
+        date: new Date().toLocaleDateString(),
+      },
+      ...sales,
+    ]);
+
+    setAmount("");
+  };
+
+  const total = sales.reduce(
+    (sum, sale) => sum + sale.amount,
+    0
+  );
+
+  return (
+    <div style={{ padding: 20, fontFamily: "sans-serif" }}>
+      <h1>🏷️ Sticker Business Pro</h1>
+
+      <h2>Total: ${total}</h2>
+
+      <input
+        type="number"
+        value={amount}
+        placeholder="Venta"
+        onChange={(e) => setAmount(e.target.value)}
+      />
+
+      <button onClick={addSale}>
+        Agregar
+      </button>
+
+      <hr />
+
+      {sales.map((sale) => (
+        <div key={sale.id}>
+          ${sale.amount} - {sale.date}
+        </div>
+      ))}
+    </div>
+  );
+}

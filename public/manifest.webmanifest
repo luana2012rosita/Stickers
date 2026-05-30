@@ -1,0 +1,8 @@
+{
+"name":"Sticker Business Pro",
+"short_name":"StickerPro",
+"display":"standalone",
+"start_url":"/",
+"theme_color":"#111111",
+"background_color":"#111111"
+}
